@@ -55,30 +55,43 @@ if option == 'Pengaruh Cuaca dan Musim':
 elif option == 'Tren Penggunaan Sepeda':
     st.header('Tren Penggunaan Sepeda')
 
-    # Tren penggunaan sepeda selama dua tahun
-    st.subheader('Tren Jumlah Penyewaan Harian')
+    # Plot jumlah penyewaan berdasarkan jam
+    st.subheader('Rata-rata Jumlah Penyewaan Berdasarkan Jam')
     fig, ax = plt.subplots(figsize=(12, 6))
-    sns.lineplot(x='dteday', y='cnt', data=day_df, ax=ax)
-    ax.set_title('Tren Jumlah Penyewaan Harian')
-    ax.set_xlabel('Tanggal')
-    ax.set_ylabel('Jumlah Penyewaan')
+    sns.lineplot(x='hr', y='cnt', data=hour_df.groupby(
+        'hr')['cnt'].mean().reset_index(), ax=ax)
+    ax.set_title('Rata-rata Jumlah Penyewaan Berdasarkan Jam')
+    ax.set_xlabel('Jam')
+    ax.set_ylabel('Rata-rata Jumlah Penyewaan')
     ax.grid(True)
     st.pyplot(fig)
 
-    # Box plot jumlah penyewaan berdasarkan musim (data harian)
-    st.subheader('Jumlah Penyewaan Berdasarkan Musim (Data Harian)')
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.boxplot(x='season', y='cnt', data=day_df, ax=ax)
-    ax.set_title('Jumlah Penyewaan Berdasarkan Musim (Data Harian)')
-    ax.set_xlabel('Musim (1=Spring, 2=Summer, 3=Fall, 4=Winter)')
-    ax.set_ylabel('Jumlah Penyewaan')
+    # Plot jumlah penyewaan berdasarkan hari dalam seminggu
+    st.subheader('Rata-rata Jumlah Penyewaan Berdasarkan Hari dalam Seminggu')
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.lineplot(x='weekday', y='cnt', data=hour_df.groupby(
+        'weekday')['cnt'].mean().reset_index(), ax=ax)
+    ax.set_title('Rata-rata Jumlah Penyewaan Berdasarkan Hari dalam Seminggu')
+    ax.set_xlabel('Hari dalam Seminggu (0=Senin, 6=Minggu)')
+    ax.set_ylabel('Rata-rata Jumlah Penyewaan')
+    ax.grid(True)
+    st.pyplot(fig)
+
+    # Plot jumlah penyewaan berdasarkan bulan
+    st.subheader('Rata-rata Jumlah Penyewaan Berdasarkan Bulan')
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.lineplot(x='mnth', y='cnt', data=hour_df.groupby(
+        'mnth')['cnt'].mean().reset_index(), ax=ax)
+    ax.set_title('Rata-rata Jumlah Penyewaan Berdasarkan Bulan')
+    ax.set_xlabel('Bulan')
+    ax.set_ylabel('Rata-rata Jumlah Penyewaan')
     ax.grid(True)
     st.pyplot(fig)
 
     # Plot tren penggunaan sepeda selama dua tahun
-    st.subheader('Jumlah Penyewaan selama dua tahun (Data Harian)')
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.boxplot(x='dteday', y='cnt', data=day_df)
+    st.subheader('Tren Jumlah Penyewaan Harian')
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.lineplot(x='dteday', y='cnt', data=day_df, ax=ax)
     ax.set_title('Tren Jumlah Penyewaan Harian')
     ax.set_xlabel('Tanggal')
     ax.set_ylabel('Jumlah Penyewaan')
